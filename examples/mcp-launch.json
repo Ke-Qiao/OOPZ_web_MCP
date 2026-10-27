@@ -1,0 +1,5 @@
+{
+  "command": "/ABSOLUTE/PATH/TO/oopz-mcp/.venv/bin/oopz-mcp",
+  "args": ["--config", "/ABSOLUTE/PATH/TO/oopz-mcp/examples/mock.toml"],
+  "env": {}
+}

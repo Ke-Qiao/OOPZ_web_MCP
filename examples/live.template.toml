@@ -1,0 +1,104 @@
+# TEMPLATE ONLY. Copy to config.local.toml in the project root and replace placeholders.
+# Does not install virtual audio drivers, load weights, or start a TTS server.
+local_stop_file = ".runtime/stop"
+log_metrics = false
+
+[limits]
+# Must be reduced if the actual MCP client times out sooner.
+max_wait_ms = 30000
+lease_seconds = 120
+event_capacity = 32
+request_capacity = 256
+max_sessions = 1
+transcript_chars = 2000
+output_queue_ms = 80
+input_queue_ms = 1000
+max_output_seconds = 180
+
+[profiles.mock]
+backend = "mock"
+
+[profiles.oopz]
+backend = "live"
+# Optional heuristic: only ignored while output is active; use [] to treat all text as input.
+backchannels = ["嗯", "嗯嗯", "哦", "哦哦"]
+
+[profiles.oopz.audio]
+# Exact, unambiguous PortAudio device names. Do not select desktop/system-wide loopback.
+rx_device = "REPLACE_WITH_DEDICATED_OOPZ_RX"
+tx_device = "REPLACE_WITH_DEDICATED_OOPZ_TX"
+rx_sample_rate = 16000
+tx_sample_rate = 32000
+# Use 2 for the dedicated local stereo loopback devices.
+rx_channels = 2
+tx_channels = 2
+frame_ms = 20
+vad_rms = 0.015
+endpoint_ms = 320
+# endpoint_ms applies to the legacy path; speakers/turn use turn.silence_ms below.
+
+[profiles.oopz.asr]
+provider = "xfyun_rtasr_llm"
+# Use these environment variable names, or set credentials_file to a private UTF-8 file
+# with APPID/APIKey/APISecret colon-separated fields. Never put actual secrets here.
+app_id_env = "XFYUN_APP_ID"
+api_key_env = "XFYUN_API_KEY"
+api_secret_env = "XFYUN_API_SECRET"
+# credentials_file = "/absolute/private/path/xfyun-credentials.txt"
+lang = "autodialect"
+# domain = "game"
+connect_timeout_seconds = 10
+final_timeout_seconds = 15
+
+[profiles.oopz.tts]
+# No service is assumed to exist. Provide your existing GPT-SoVITS api_v2 /tts URL.
+# .invalid is deliberately unusable. HTTPS for remote services; HTTP allowed only on loopback.
+endpoint = "https://your-configured-tts.invalid/tts"
+api_revision = "REPLACE_WITH_DEPLOYED_GIT_COMMIT"
+model_id = "REPLACE_WITH_WEIGHTS_VERSION_AND_CHECKSUM"
+# This path belongs to the TTS server's filesystem, not necessarily this machine.
+ref_audio_path = "REPLACE_WITH_TTS_SERVER_REFERENCE_AUDIO.wav"
+prompt_text = ""
+prompt_lang = "zh"
+text_lang = "zh"
+# Must match the deployed model's mono signed 16-bit little-endian raw PCM and TX rate.
+sample_rate = 32000
+streaming_mode = 3
+# Enable only if the pinned API and chosen weights really implement GPT token streaming.
+gpt_streaming = false
+timeout_seconds = 30
+# bearer_token_env = "OOPZ_TTS_TOKEN"
+
+# Optional local speaker identity + semantic turn ending. Enable both sections together.
+# Uncomment both sections, prepare these exact models, then enroll speakers via the CLI.
+# voice_open requires at least one enrolled speaker; enrollment itself needs these sections.
+# Paths are relative to this TOML file. Models and private registry are not bundled.
+# See docs/SPEAKER_ENROLLMENT.md and docs/LISTENING_MODELS.json.
+# [profiles.oopz.speakers]
+# enabled = true # false accepts all voices as unverified; only disable for an explicit test.
+# model_path = "models/3dspeaker_speech_campplus_sv_zh-cn_16k-common.onnx"
+# model_sha256 = "f682b514c05d947ee3fa91cd6ec6c5c7543479a128373fa29b1faedccd21fd11"
+# registry_path = ".runtime/speakers/registry.json"
+# threshold = 0.65
+# margin = 0.10
+# window_ms = 2000
+# min_speech_ms = 600
+
+# [profiles.oopz.turn]
+# model_path = "models/smart-turn-v3.2-cpu.onnx"
+# model_sha256 = "2bb026316b14a660486a75b1733cd3fbab8c2fd0314dc9af7be49f8cca967e4f"
+# threshold = 0.5
+# silence_ms = 500
+# max_wait_seconds = 8
+# inference_timeout_seconds = 5
+
+# Optional instant responder, requires speakers AND turn above. Disabled if absent.
+# Magpie loopback gateway; use an explicit local model route, never an automatic cloud group.
+# No raw audio goes to this model: only a completed, speaker-verified transcript.
+# [profiles.oopz.instant]
+# endpoint = "http://127.0.0.1:3425/v1/chat/completions"
+# model = "lmstudio/qwen/qwen3.5-9b"
+# system_prompt = "你正在协助用户玩 Minecraft。用简短自然的中文回应，把需要客户端执行的工作整理为任务。只表示收到或准备处理，不说已经完成，不编造世界状态；不清楚的对象先询问。"
+# timeout_seconds = 8
+# max_tokens = 512
+# bearer_token_env = "OOPZ_INSTANT_TOKEN" # Only if your local gateway requires it.

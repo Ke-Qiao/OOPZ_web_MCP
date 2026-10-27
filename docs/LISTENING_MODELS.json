@@ -1,0 +1,130 @@
+{
+  "prepared_at": "2026-10-24T01:14:11.648342+08:00",
+  "timezone": "Asia/Shanghai",
+  "status": "downloaded_checksum_verified_offline_synthetic_inference_passed",
+  "audio_devices_opened": false,
+  "asr_tts_started": false,
+  "inference_run": true,
+  "models": [
+    {
+      "relative_path": "models/3dspeaker_speech_campplus_sv_zh-cn_16k-common.onnx",
+      "size_bytes": 28281138,
+      "sha256": "f682b514c05d947ee3fa91cd6ec6c5c7543479a128373fa29b1faedccd21fd11",
+      "published_sha256": "f682b514c05d947ee3fa91cd6ec6c5c7543479a128373fa29b1faedccd21fd11",
+      "checksum_verified": true,
+      "download_url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_campplus_sv_zh-cn_16k-common.onnx",
+      "id": "campplus_zh_cn_16k",
+      "purpose": "speaker_embedding",
+      "publisher": "k2-fsa/sherpa-onnx official ONNX model release",
+      "upstream_model": "iic/speech_campplus_sv_zh-cn_16k-common",
+      "release_tag": "speaker-recongition-models",
+      "release_id": 133152315,
+      "asset_id": 198893103,
+      "asset_created_at": "2024-10-14T03:41:19Z",
+      "asset_updated_at": "2024-10-14T03:41:20Z",
+      "release_url": "https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models",
+      "checksum_source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/checksum.txt",
+      "checksum_document_sha256": "c3a928cc16d165ce869553f71fcbe6fc1c1b513aee0665414548780a979b2325",
+      "license": "Apache-2.0",
+      "license_source": "https://modelscope.cn/models/iic/speech_campplus_sv_zh-cn_16k-common",
+      "license_url": "https://github.com/modelscope/3D-Speaker/blob/main/LICENSE",
+      "license_evidence": "Official ModelScope README front matter declares Apache License 2.0; sherpa release states each model keeps its upstream license.",
+      "onnx": {
+        "inspection": "metadata_only_no_inference",
+        "onnxruntime_version": "1.31.0",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "inputs": [
+          {
+            "name": "x",
+            "shape": [
+              "N",
+              "T",
+              80
+            ],
+            "type": "tensor(float)"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "embedding",
+            "shape": [
+              "BatchNormalizationembedding_dim_0",
+              192
+            ],
+            "type": "tensor(float)"
+          }
+        ],
+        "producer_name": "pytorch",
+        "model_version": 9223372036854775807,
+        "custom_metadata": {
+          "framework": "3d-speaker",
+          "url": "https://www.modelscope.cn/models/iic/speech_campplus_sv_zh-cn_16k-common/summary",
+          "comment": "This model is from iic/speech_campplus_sv_zh-cn_16k-common",
+          "sample_rate": "16000",
+          "language": "Chinese",
+          "output_dim": "192",
+          "normalize_samples": "1",
+          "feature_normalize_type": "global-mean"
+        }
+      }
+    },
+    {
+      "relative_path": "models/smart-turn-v3.2-cpu.onnx",
+      "size_bytes": 8679182,
+      "sha256": "2bb026316b14a660486a75b1733cd3fbab8c2fd0314dc9af7be49f8cca967e4f",
+      "published_sha256": "2bb026316b14a660486a75b1733cd3fbab8c2fd0314dc9af7be49f8cca967e4f",
+      "checksum_verified": true,
+      "download_url": "https://huggingface.co/pipecat-ai/smart-turn-v3/resolve/f766f81d3cfdf7737ac64aad813d91bbfd56bf93/smart-turn-v3.2-cpu.onnx",
+      "id": "smart_turn_v3_2_cpu",
+      "purpose": "turn_completion",
+      "version": "3.2 CPU ONNX",
+      "publisher": "pipecat-ai",
+      "repository": "pipecat-ai/smart-turn-v3",
+      "revision": "f766f81d3cfdf7737ac64aad813d91bbfd56bf93",
+      "revision_last_modified": "2026-01-07T18:00:39.000Z",
+      "model_card": "https://huggingface.co/pipecat-ai/smart-turn-v3/tree/f766f81d3cfdf7737ac64aad813d91bbfd56bf93",
+      "checksum_source": "https://huggingface.co/pipecat-ai/smart-turn-v3/blob/f766f81d3cfdf7737ac64aad813d91bbfd56bf93/smart-turn-v3.2-cpu.onnx",
+      "license": "BSD-2-Clause",
+      "license_source": "https://huggingface.co/pipecat-ai/smart-turn-v3",
+      "license_url": "https://github.com/pipecat-ai/smart-turn/blob/main/LICENSE",
+      "license_evidence": "Official Hugging Face model card declares bsd-2-clause.",
+      "onnx": {
+        "inspection": "metadata_only_no_inference",
+        "onnxruntime_version": "1.31.0",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "inputs": [
+          {
+            "name": "input_features",
+            "shape": [
+              "s6",
+              80,
+              800
+            ],
+            "type": "tensor(float)"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "logits",
+            "shape": [
+              "s6",
+              1
+            ],
+            "type": "tensor(float)"
+          }
+        ],
+        "producer_name": "onnx.quantize",
+        "model_version": 9223372036854775807,
+        "custom_metadata": {
+          "onnx.quant.pre_process": "onnxruntime.quant",
+          "onnx.infer": "onnxruntime.quant"
+        }
+      }
+    }
+  ],
+  "inference_scope": "synthetic_pcm_only_no_voice_accuracy_claim"
+}

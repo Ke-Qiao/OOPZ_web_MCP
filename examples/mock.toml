@@ -1,0 +1,25 @@
+# Default: no hardware, network, or models. No scripted speech unless "scripted" is selected.
+local_stop_file = "../.runtime/stop"
+log_metrics = false
+
+[limits]
+max_wait_ms = 30000
+lease_seconds = 120
+event_capacity = 32
+request_capacity = 256
+max_sessions = 1
+transcript_chars = 2000
+output_queue_ms = 80
+input_queue_ms = 1000
+max_output_seconds = 180
+
+[profiles.mock]
+backend = "mock"
+
+[profiles.scripted]
+backend = "mock"
+mock_turns = [
+  { after_ms = 1000, text = "这是模拟输入，不是真实频道录音。" },
+  { after_ms = 8000, text = "我改变问题了，请以最新输入为准。" },
+  { after_ms = 16000, text = "结束模拟语音会话。" },
+]

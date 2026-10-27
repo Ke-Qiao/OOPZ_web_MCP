@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "oopz-mcp"
+version = "0.1.0"
+description = "Independent, bounded, interruptible voice tools over MCP stdio"
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+dependencies = ["mcp>=1.30,<2", "pydantic>=2.11,<3", "httpx>=0.28,<1", "anyio>=4.5,<5"]
+
+[project.optional-dependencies]
+audio = ["sounddevice>=0.5.3,<0.6", "numpy>=2.2,<3", "websockets>=17.2,<18"]
+listening = ["sherpa-onnx==1.13.8", "sherpa-onnx-core==1.13.8", "onnxruntime>=1.20,<2", "transformers>=4.46,<5", "numpy>=2.2,<3"]
+
+[dependency-groups]
+dev = ["ruff>=0.14,<1", "pyright>=1.1.400,<2"]
+
+[project.scripts]
+oopz-mcp = "oopz_mcp.server:main"
+oopz-mcp-stop = "oopz_mcp.local_control:main"
+oopz-mcp-speaker = "oopz_mcp.speaker_admin:main"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "ASYNC"]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+venvPath = "."
+venv = ".venv"
+extraPaths = ["src"]
+
+
+[tool.hatch.build]
+exclude = ["config.local.toml", ".env", ".env.*", "api.md", ".runtime/**", "models/**"]
